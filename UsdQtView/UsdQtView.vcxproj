@@ -92,8 +92,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gl.cpp" />
-    <ClCompile Include="GLWidget.cpp" />
+    <ClCompile Include="NodePreview.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NodeRenderer.cpp" />
     <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -111,10 +112,11 @@
     <QtRcc Include="UsdQtView.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="GLWidget.h" />
+    <QtMoc Include="NodePreview.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cbuffers.h" />
     <ClInclude Include="gl.h" />
+    <ClInclude Include="NodeRenderer.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="utils.h" />

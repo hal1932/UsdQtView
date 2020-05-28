@@ -7,15 +7,22 @@
 #include "SceneNode.h"
 #include "Camera.h"
 
-class GLWidget : public QOpenGLWidget {
+class NodeRenderer;
+
+class NodePreview : public QOpenGLWidget {
     Q_OBJECT
+signals:
+    void loaded();
+
 public:
-    GLWidget() : QOpenGLWidget(nullptr) {
+    NodePreview(QWidget* parent) : QOpenGLWidget(parent) {
         auto pTimer = new QTimer(this);
         connect(pTimer, SIGNAL(timeout()), this, SLOT(update()));
         pTimer->start(1000 / 60.0);
         setFixedSize(640, 480);
     }
+
+    void setNode(SceneNode* pNode) { pNode_ = pNode; }
 
     void initializeGL() override;
     void paintGL() override;
@@ -26,8 +33,7 @@ public:
     void mouseMoveEvent(QMouseEvent* e) override;
 
 private:
-    UsdStageRefPtr stage_;
-    SceneNode node_;
+    SceneNode* pNode_;
 
     ShaderPipe shaderPipe_;
     Camera camera_;

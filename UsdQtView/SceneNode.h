@@ -4,6 +4,7 @@
 #include "cbuffers.h"
 #include "Vertex.h"
 #include "gl.h"
+#include "NodeRenderer.h"
 
 using namespace PXR_INTERNAL_NS;
 
@@ -16,22 +17,19 @@ public:
     void load(UsdPrim prim, SceneNode* pParent = nullptr);
     void render(ShaderPipe* pShaderPipe);
 
-    const glm::mat4x4& transform() { return cbVertObj_.resource().transform; }
+    //const glm::mat4x4& transform() { return cbVertObj_.resource().transform; }
+
+    const UsdPrim& prim() { return prim_; }
+    const glm::mat4x4& transform() { return transform_; }
 
 private:
-    InputLayout<Vertex> inputLayout_;
-    BindableBuffer<Vertex> vertices_;
-    BindableBuffer<ushort> indices_;
-
     UsdPrim prim_;
     SceneNode* pParent_;
     std::vector<SceneNode> children_;
 
     bool isMesh_;
+    glm::mat4x4 transform_;
     glm::vec3 color_;
 
-    UniformBlock<CbVertObj> cbVertObj_;
-    UniformBlock<CBFlagObj> cbFlagObj_;
-
-    Texture texture_;
+    std::unique_ptr<NodeRenderer> renderer_;
 };

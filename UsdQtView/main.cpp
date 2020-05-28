@@ -3,7 +3,7 @@
 #include <QtWidgets/QApplication>
 #include <QtGui/QSurfaceFormat>
 #include "gl.h"
-#include "GLWidget.h"
+#include "NodePreview.h"
 
 #include <cstdio>
 #include <iostream>
@@ -29,14 +29,32 @@ public:
 
 class MainWindow : public QMainWindow {
 public:
+    MainWindow() : QMainWindow(nullptr), nodePreview_(this){}
+
+    void setupUi() {
+        connect(&nodePreview_, &NodePreview::loaded, this, [this]() {
+            setupOpenGL();
+
+            auto stage = UsdStage::Open(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
+            node_.load(stage->GetPrimAtPath(SdfPath("/Kitchen_set/Props_grp/DiningTable_grp/ChairB_1")));
+
+            nodePreview_.setNode(&node_);
+        });
+
+        setCentralWidget(&nodePreview_);
+    }
+
     void keyReleaseEvent(QKeyEvent* ev) {
         switch (ev->key()) {
             case Qt::Key_Escape:
                 close();
-
                 return;
         }
     }
+
+private:
+    NodePreview nodePreview_;
+    SceneNode node_;
 };
 
 
@@ -46,15 +64,8 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     MainWindow window;
-    GLWidget w;
-    window.setCentralWidget(&w);
+    window.setupUi();
     window.show();
-
-    //Stage stage;
-    //stage.LoadFromFile(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
-    //for (auto path : stage.TraverseGPrims()) {
-    //    qDebug() << path.GetString().c_str();
-    //}
 
     return app.exec();
 }

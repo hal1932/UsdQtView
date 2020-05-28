@@ -1,25 +1,18 @@
 #include "stdafx.h"
-#include "GLWidget.h"
+#include "NodePreview.h"
 #include <fstream>
 #include <QFileInfo>
 
-void GLWidget::initializeGL() {
-    stage_.Reset();
-    //stage_ = UsdStage::Open(QFileInfo("simpleShading.usda").absoluteFilePath().toStdString());
-    //stage_ = UsdStage::Open(QFileInfo("Kitchen_set/assets/Book/Book.geom.usd").absoluteFilePath().toStdString());
-    stage_ = UsdStage::Open(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
-    //stage_->Flatten();
-
-    setupOpenGL();
-
-    node_.load(stage_->GetPrimAtPath(SdfPath("/Kitchen_set/Props_grp/DiningTable_grp/ChairB_1")));
-    //node_.load(stage_->GetPseudoRoot());
+void NodePreview::initializeGL() {
+    emit loaded();
 
     gl.glClearColor(0.4f, 0.4f, 0.4f, 1.f);
     gl.glClearDepth(1.0);
     gl.glEnable(GL_DEPTH_TEST);
 
     shaderPipe_.create();
+    shaderPipe_.defineKeyword("ENABLE_TEXTURE_0");
+    shaderPipe_.defineKeyword("ENABLE_DISPLAY_COLOR");
     shaderPipe_.compile(GL_VERTEX_SHADER, QFileInfo("simple.vert").absoluteFilePath().toStdString().c_str());
     shaderPipe_.compile(GL_FRAGMENT_SHADER, QFileInfo("simple.frag").absoluteFilePath().toStdString().c_str());
     shaderPipe_.link();
@@ -38,16 +31,20 @@ void GLWidget::initializeGL() {
     setMouseTracking(true);
 }
 
-void GLWidget::paintGL() {
+void NodePreview::paintGL() {
     gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    shaderPipe_.beginKeywordVariation();
+    shaderPipe_.enableKeyword("ENABLE_DISPLAY_COLOR");
+    shaderPipe_.endKeywordVariation();
 
     shaderPipe_.bind();
     shaderPipe_.bindUniformBlock(&cbVertScene_, "CbVertScene");
 
-    node_.render(&shaderPipe_);
+    pNode_->render(&shaderPipe_);
 }
 
-void GLWidget::wheelEvent(QWheelEvent* e) {
+void NodePreview::wheelEvent(QWheelEvent* e) {
     const auto stepSize = 2.f;
     const auto degree = e->angleDelta().y() / 8;
 
@@ -65,7 +62,7 @@ void GLWidget::wheelEvent(QWheelEvent* e) {
     updateCamera();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent* e) {
+void NodePreview::mouseMoveEvent(QMouseEvent* e) {
     auto mouseDelta = e->pos() - lastMousePos_;
 
     if (e->buttons() & Qt::LeftButton) {
@@ -111,7 +108,7 @@ void GLWidget::mouseMoveEvent(QMouseEvent* e) {
     lastMousePos_ = e->pos();
 }
 
-void GLWidget::updateCamera() {
+void NodePreview::updateCamera() {
     cbVertScene_.resource().viewProj = camera_.proj() * camera_.view();
     cbVertScene_.upload(GL_DYNAMIC_DRAW);
 }
