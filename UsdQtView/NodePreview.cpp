@@ -72,13 +72,16 @@ void NodePreview::mouseMoveEvent(QMouseEvent* e) {
         const auto toOrigin = camera_.focus() - pos;
         auto front = glm::normalize(toOrigin);
 
-        pos += toOrigin;
-        front = glm::rotateX(front, -glm::radians(static_cast<float>(mouseDelta.y()) * stepSize));
-        front = glm::rotateY(front, -glm::radians(static_cast<float>(mouseDelta.x()) * stepSize));
-        pos -= front * glm::length(toOrigin);     
+        auto up = camera_.up();
+        auto right = glm::cross(front, up);
 
-        auto right = glm::cross(camera_.up(), front);
-        const auto up = glm::cross(front, right);
+        pos += toOrigin;
+        front = glm::rotate(front, -glm::radians(static_cast<float>(mouseDelta.y()) * stepSize), right);
+        up = glm::normalize(glm::cross(right, front));
+        front = glm::rotate(front, -glm::radians(static_cast<float>(mouseDelta.x()) * stepSize), up);
+        pos -= front * glm::length(toOrigin);
+
+        up = glm::cross(right, front);
 
         camera_.setPosition(pos);
         camera_.setUp(glm::normalize(up));
