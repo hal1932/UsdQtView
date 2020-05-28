@@ -44,7 +44,7 @@ public:
         setCentralWidget(&nodePreview_);
     }
 
-    void keyReleaseEvent(QKeyEvent* ev) {
+    void keyReleaseEvent(QKeyEvent* ev) override {
         switch (ev->key()) {
             case Qt::Key_Escape:
                 close();

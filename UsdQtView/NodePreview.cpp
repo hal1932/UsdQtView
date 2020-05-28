@@ -46,69 +46,52 @@ void NodePreview::paintGL() {
 
 void NodePreview::wheelEvent(QWheelEvent* e) {
     const auto stepSize = 2.f;
-    const auto degree = e->angleDelta().y() / 8;
-
-    auto pos = camera_.position();
-    auto focus = camera_.focus();
-    const auto front = glm::normalize(pos - focus);
-
-    const auto deltaFront = front * static_cast<float>(degree) * stepSize;
-    pos -= deltaFront;
-    focus -= deltaFront;
-
-    camera_.setPosition(pos);
-    //camera_.setFocus(focus);
-
+    const auto value = e->angleDelta().y() / 8;
+    camera_.dolly(value);
     updateCamera();
 }
 
 void NodePreview::mouseMoveEvent(QMouseEvent* e) {
     auto mouseDelta = e->pos() - lastMousePos_;
 
-    if (e->buttons() & Qt::LeftButton) {
-        const auto stepSize = 0.5f;
-
-        auto pos = camera_.position();
-        const auto toOrigin = camera_.focus() - pos;
-        auto front = glm::normalize(toOrigin);
-
-        auto up = camera_.up();
-        auto right = glm::cross(front, up);
-
-        pos += toOrigin;
-        front = glm::rotate(front, -glm::radians(static_cast<float>(mouseDelta.y()) * stepSize), right);
-        up = glm::normalize(glm::cross(right, front));
-        front = glm::rotate(front, -glm::radians(static_cast<float>(mouseDelta.x()) * stepSize), up);
-        pos -= front * glm::length(toOrigin);
-
-        up = glm::cross(right, front);
-
-        camera_.setPosition(pos);
-        camera_.setUp(glm::normalize(up));
-        updateCamera();
-    } else if (e->buttons() & Qt::RightButton) {
-        const auto stepSize = 2.f;
-
-        auto pos = camera_.position();
-        auto focus = camera_.focus();
-
-        const auto front = glm::normalize(pos - focus);
-        auto right = glm::cross(camera_.up(), front);
-        const auto up = glm::cross(front, right);
-        right = glm::cross(up, front);
-
-        const auto deltaRight = -right * static_cast<float>(mouseDelta.x()) * stepSize;
-        const auto deltaUp = up * static_cast<float>(mouseDelta.y()) * stepSize;
-        pos += deltaRight + deltaUp;
-        focus += deltaRight + deltaUp;
-
-        camera_.setPosition(pos);
-        camera_.setFocus(focus);
-
-        updateCamera();
+    if (pLastKeyEvent_ != nullptr && pLastKeyEvent_->modifiers().testFlag(Qt::AltModifier)) {
+        const auto buttons = e->buttons();
+        if (buttons.testFlag(Qt::LeftButton)) {
+            const auto stepSize = 0.5f;
+            const auto x = -glm::radians(static_cast<float>(mouseDelta.x()) * stepSize);
+            const auto y = -glm::radians(static_cast<float>(mouseDelta.y()) * stepSize);
+            camera_.spin(x, y);
+            updateCamera();
+        } else if (buttons.testFlag(Qt::MiddleButton)) {
+            const auto stepSize = 2.f;
+            const auto x = -static_cast<float>(mouseDelta.x()) * stepSize;
+            const auto y = static_cast<float>(mouseDelta.y()) * stepSize;
+            camera_.pan(x, y);
+            updateCamera();
+        } else if (buttons.testFlag(Qt::RightButton)) {
+            const auto stepSize = 1.f;
+            const auto delta = std::abs(mouseDelta.x()) > std::abs(mouseDelta.y()) ? mouseDelta.x() : mouseDelta.y();
+            const auto value = static_cast<float>(delta) * stepSize;
+            camera_.dolly(value);
+            updateCamera();
+        }
     }
 
     lastMousePos_ = e->pos();
+}
+
+bool NodePreview::eventFilter(QObject* watched, QEvent* e) {
+    switch (e->type()) {
+        case QEvent::KeyPress:
+            pLastKeyEvent_ = static_cast<QKeyEvent*>(e);
+            break;
+
+        case QEvent::KeyRelease:
+            pLastKeyEvent_ = nullptr;
+            break;
+    }
+
+    return false;
 }
 
 void NodePreview::updateCamera() {

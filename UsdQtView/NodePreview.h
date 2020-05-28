@@ -20,6 +20,7 @@ public:
         connect(pTimer, SIGNAL(timeout()), this, SLOT(update()));
         pTimer->start(1000 / 60.0);
         setFixedSize(640, 480);
+        qApp->installEventFilter(this);
     }
 
     void setNode(SceneNode* pNode) { pNode_ = pNode; }
@@ -31,6 +32,7 @@ public:
 
     void wheelEvent(QWheelEvent* e) override;
     void mouseMoveEvent(QMouseEvent* e) override;
+    bool eventFilter(QObject* watched, QEvent* e) override;
 
 private:
     SceneNode* pNode_;
@@ -40,6 +42,7 @@ private:
     UniformBlock<CbVertScene> cbVertScene_;
 
     QPoint lastMousePos_;
+    QKeyEvent* pLastKeyEvent_ = nullptr;
 
     void updateCamera();
 };
