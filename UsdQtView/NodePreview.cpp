@@ -18,7 +18,7 @@ void NodePreview::initializeGL() {
     shaderPipe_.link();
 
     camera_.setPosition(glm::vec3(0.f, 0.f, 1000.f));
-    camera_.setFocus(glm::vec3(0, 0, 0));
+    camera_.setSubject(glm::vec3(0, 0, 0));
     camera_.setUp(glm::vec3(0, 1, 0));
     camera_.setFov(45.f);
     camera_.setScreen(640.f, 480.f);
