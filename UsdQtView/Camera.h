@@ -45,7 +45,7 @@ public:
         up_ = nextUp;
     }
 
-    void pan(float x, float y) {
+    void track(float x, float y) {
         auto nextPos = pos_;
         auto nextFocus = focus_;
 
@@ -65,11 +65,15 @@ public:
 
     void dolly(float value) {
         auto nextPos = pos_;
+        //auto nextFocus = focus_;
 
         const auto front = glm::normalize(nextPos - focus_);
-        nextPos -= front * static_cast<float>(value);
+        const auto delta = -front * static_cast<float>(value);
+        nextPos += delta;
+        //nextFocus += delta;
 
         pos_ = nextPos;
+        //focus_ = nextFocus;
     }
 
 private:

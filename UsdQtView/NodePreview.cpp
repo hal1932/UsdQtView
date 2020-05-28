@@ -66,7 +66,7 @@ void NodePreview::mouseMoveEvent(QMouseEvent* e) {
             const auto stepSize = 2.f;
             const auto x = -static_cast<float>(mouseDelta.x()) * stepSize;
             const auto y = static_cast<float>(mouseDelta.y()) * stepSize;
-            camera_.pan(x, y);
+            camera_.track(x, y);
             updateCamera();
         } else if (buttons.testFlag(Qt::RightButton)) {
             const auto stepSize = 1.f;
