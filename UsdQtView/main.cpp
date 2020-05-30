@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "UsdQtView.h"
+//#include "UsdQtView.h"
 #include <QtWidgets/QApplication>
 #include <QtGui/QSurfaceFormat>
 #include "gl.h"
@@ -41,6 +41,7 @@ public:
             nodePreview_.setNode(&node_);
         });
 
+        setMinimumSize(640, 480);
         setCentralWidget(&nodePreview_);
     }
 

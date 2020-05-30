@@ -28,9 +28,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="UsdQtView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SceneNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="UsdQtView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="NodePreview.h">
       <Filter>Header Files</Filter>
     </QtMoc>
