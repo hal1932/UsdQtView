@@ -233,14 +233,8 @@ private:
 };
 
 
-class ShaderPipe final {// : GLObject<ShaderPipe> {
+class Material final {
 public:
-    //ShaderPipe& operator=(ShaderPipe&& other) override {
-    //    program_ = std::move(other.program_);
-    //    shaders_ = std::move(other.shaders_);
-    //    return *this;
-    //}
-
     void create() {}
 
     void destroy() {

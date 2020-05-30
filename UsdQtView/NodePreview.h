@@ -37,7 +37,7 @@ public:
 private:
     SceneNode* pNode_;
 
-    ShaderPipe shaderPipe_;
+    Material material_;
     Camera camera_;
     UniformBlock<CbVertScene> cbVertScene_;
 

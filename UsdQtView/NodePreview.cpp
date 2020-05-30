@@ -10,12 +10,12 @@ void NodePreview::initializeGL() {
     gl.glClearDepth(1.0);
     gl.glEnable(GL_DEPTH_TEST);
 
-    shaderPipe_.create();
-    shaderPipe_.defineKeyword("ENABLE_TEXTURE_0");
-    shaderPipe_.defineKeyword("ENABLE_DISPLAY_COLOR");
-    shaderPipe_.compile(GL_VERTEX_SHADER, QFileInfo("simple.vert").absoluteFilePath().toStdString().c_str());
-    shaderPipe_.compile(GL_FRAGMENT_SHADER, QFileInfo("simple.frag").absoluteFilePath().toStdString().c_str());
-    shaderPipe_.link();
+    material_.create();
+    material_.defineKeyword("ENABLE_TEXTURE_0");
+    material_.defineKeyword("ENABLE_DISPLAY_COLOR");
+    material_.compile(GL_VERTEX_SHADER, QFileInfo("simple.vert").absoluteFilePath().toStdString().c_str());
+    material_.compile(GL_FRAGMENT_SHADER, QFileInfo("simple.frag").absoluteFilePath().toStdString().c_str());
+    material_.link();
 
     camera_.setPosition(glm::vec3(0.f, 0.f, 1000.f));
     camera_.setSubject(glm::vec3(0, 0, 0));
@@ -39,14 +39,14 @@ void NodePreview::resizeGL(int w, int h) {
 void NodePreview::paintGL() {
     gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    shaderPipe_.beginKeywordVariation();
-    shaderPipe_.enableKeyword("ENABLE_DISPLAY_COLOR");
-    shaderPipe_.endKeywordVariation();
+    material_.beginKeywordVariation();
+    material_.enableKeyword("ENABLE_DISPLAY_COLOR");
+    material_.endKeywordVariation();
 
-    shaderPipe_.bind();
-    shaderPipe_.bindUniformBlock(&cbVertScene_, "CbVertScene");
+    material_.bind();
+    material_.bindUniformBlock(&cbVertScene_, "CbVertScene");
 
-    pNode_->render(&shaderPipe_);
+    pNode_->render(&material_);
 }
 
 void NodePreview::wheelEvent(QWheelEvent* e) {

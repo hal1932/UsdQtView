@@ -58,12 +58,12 @@ void SceneNode::load(UsdPrim prim, SceneNode* pParent) {
     renderer_->create(this);
 }
 
-void SceneNode::render(ShaderPipe* pShaderPipe) {
+void SceneNode::render(Material* pMaterial) {
     if (renderer_->renderable()) {
-        renderer_->render(pShaderPipe);
+        renderer_->render(pMaterial);
     }
 
     for (auto& child : children_) {
-        child.render(pShaderPipe);
+        child.render(pMaterial);
     }
 }

@@ -15,7 +15,7 @@ public:
     ~SceneNode();
     
     void load(UsdPrim prim, SceneNode* pParent = nullptr);
-    void render(ShaderPipe* pShaderPipe);
+    void render(Material* pMaterial);
 
     //const glm::mat4x4& transform() { return cbVertObj_.resource().transform; }
 

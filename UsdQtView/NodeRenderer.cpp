@@ -112,11 +112,11 @@ void NodeRenderer::create(SceneNode* pNode) {
     inputLayout_.set(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 12); // uv
 }
 
-void NodeRenderer::render(ShaderPipe* pShaderPipe) {
+void NodeRenderer::render(Material* pMaterial) {
     inputLayout_.bind();
 
-    pShaderPipe->bindUniformBlock(&cbVertObj_, "CbVertObj");
-    pShaderPipe->bindUniformBlock(&cbFlagObj_, "CbFlagObj");
+    pMaterial->bindUniformBlock(&cbVertObj_, "CbVertObj");
+    pMaterial->bindUniformBlock(&cbFlagObj_, "CbFlagObj");
 
     //pShaderPipe->bindTexture(&texture_, GL_TEXTURE0, "texture_0");
 

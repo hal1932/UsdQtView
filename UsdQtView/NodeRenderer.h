@@ -7,13 +7,13 @@
 #include "gl.h"
 
 class SceneNode;
-class ShaderPipe;
+class Material;
 
 class NodeRenderer final : public boost::noncopyable {
 public:
     NodeRenderer();
     void create(SceneNode* pNode);
-    void render(ShaderPipe* pShaderPipe);
+    void render(Material* pMaterial);
 
     bool renderable() { return renderable_; }
 
