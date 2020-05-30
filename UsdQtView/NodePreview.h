@@ -19,13 +19,13 @@ public:
         auto pTimer = new QTimer(this);
         connect(pTimer, SIGNAL(timeout()), this, SLOT(update()));
         pTimer->start(1000 / 60.0);
-        setFixedSize(640, 480);
         qApp->installEventFilter(this);
     }
 
     void setNode(SceneNode* pNode) { pNode_ = pNode; }
 
     void initializeGL() override;
+    void resizeGL(int w, int h) override;
     void paintGL() override;
 
     void messageLogged(QOpenGLDebugMessage message);

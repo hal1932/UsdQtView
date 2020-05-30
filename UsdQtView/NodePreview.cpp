@@ -21,7 +21,7 @@ void NodePreview::initializeGL() {
     camera_.setSubject(glm::vec3(0, 0, 0));
     camera_.setUp(glm::vec3(0, 1, 0));
     camera_.setFov(45.f);
-    camera_.setScreen(640.f, 480.f);
+    camera_.setScreen(100.f, 100.f);
     camera_.setClip(0.1f, 10000.f);
 
     cbVertScene_.create();
@@ -29,6 +29,11 @@ void NodePreview::initializeGL() {
     cbVertScene_.upload(GL_DYNAMIC_DRAW);
 
     setMouseTracking(true);
+}
+
+void NodePreview::resizeGL(int w, int h) {
+    camera_.setScreen(w, h);
+    updateCamera();
 }
 
 void NodePreview::paintGL() {
