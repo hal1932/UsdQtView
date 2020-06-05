@@ -6,6 +6,7 @@
 #include "gl.h"
 #include "SceneNode.h"
 #include "Camera.h"
+#include "RenderQueue.h"
 
 class NodeRenderer;
 
@@ -22,7 +23,10 @@ public:
         qApp->installEventFilter(this);
     }
 
-    void setNode(SceneNode* pNode) { pNode_ = pNode; }
+    void setNode(SceneNode* pNode) {
+        pNode_ = pNode;
+    }
+    void updateRenderable();
 
     void initializeGL() override;
     void resizeGL(int w, int h) override;
@@ -35,14 +39,16 @@ public:
     bool eventFilter(QObject* watched, QEvent* e) override;
 
 private:
-    SceneNode* pNode_;
+    SceneNode* pNode_ = nullptr;
 
     Material material_;
     Camera camera_;
-    UniformBlock<CbVertScene> cbVertScene_;
+    //UniformBlock<CbVertScene> cbVertScene_;
+
+    RenderQueue renderQueue_;
 
     QPoint lastMousePos_;
     QKeyEvent* pLastKeyEvent_ = nullptr;
 
-    void updateCamera();
+    //void updateCamera();
 };

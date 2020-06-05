@@ -112,13 +112,24 @@ void NodeRenderer::create(SceneNode* pNode) {
     inputLayout_.set(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 12); // uv
 }
 
-void NodeRenderer::render(Material* pMaterial) {
+void NodeRenderer::setMaterial(Material* pMaterial) {
+    pMaterial->beginKeywordVariation();
+    pMaterial->enableKeyword("ENABLE_DISPLAY_COLOR");
+    if (texture_.created()) {
+        pMaterial->enableKeyword("ENABLE_TEXTURE_0");
+    }
+    material_ = pMaterial->endKeywordVariation();
+}
+
+void NodeRenderer::render() {
     inputLayout_.bind();
 
-    pMaterial->bindUniformBlock(&cbVertObj_, "CbVertObj");
-    pMaterial->bindUniformBlock(&cbFlagObj_, "CbFlagObj");
+    material_.bindUniformBlock(&cbVertObj_, "CbVertObj");
+    material_.bindUniformBlock(&cbFlagObj_, "CbFlagObj");
 
-    //pShaderPipe->bindTexture(&texture_, GL_TEXTURE0, "texture_0");
+    if (texture_.created()) {
+        material_.bindTexture(&texture_, GL_TEXTURE0, "texture_0");
+    }
 
     indices_.bind();
     gl.glDrawElements(GL_TRIANGLES, indices_.size(), GL_UNSIGNED_SHORT, 0);

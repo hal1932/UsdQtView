@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SceneNode.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "RenderQueue.h"
 
 SceneNode::SceneNode()
     : pParent_(nullptr),
@@ -46,8 +47,6 @@ void SceneNode::load(UsdPrim prim, SceneNode* pParent) {
         transform_ = pParent_->transform() * transform_;
     }
 
-    qDebug() << prim.GetPath().GetString().c_str() << " " << prim.GetTypeName().GetString().c_str() << " " << resetStack;
-
     for (auto childPrim : prim.GetChildren()) {
         SceneNode child;
         child.load(childPrim, this);
@@ -56,14 +55,37 @@ void SceneNode::load(UsdPrim prim, SceneNode* pParent) {
 
     renderer_ = std::make_unique<NodeRenderer>();
     renderer_->create(this);
+
+    qDebug() << prim.GetPath().GetString().c_str() << " " << prim.GetTypeName().GetString().c_str() << " " << resetStack << " " << renderer_->renderable();
 }
 
-void SceneNode::render(Material* pMaterial) {
+void SceneNode::setMaterial(Material* pMaterial) {
     if (renderer_->renderable()) {
-        renderer_->render(pMaterial);
+        renderer_->setMaterial(pMaterial);
     }
 
     for (auto& child : children_) {
-        child.render(pMaterial);
+        child.setMaterial(pMaterial);
     }
 }
+
+void SceneNode::traverseRenderable(RenderQueue* pRenderQueue) {
+    if (renderer_->renderable()) {
+        pRenderQueue->add(renderer_.get(), 2000);
+    }
+
+    for (auto& child : children_) {
+        child.traverseRenderable(pRenderQueue);
+    }
+}
+
+//void SceneNode::render(Material* pMaterial) {
+//    if (renderer_->renderable()) {
+//        renderer_->render(pMaterial);
+//    }
+//
+//    for (auto& child : children_) {
+//        child.render(pMaterial);
+//    }
+//}
+

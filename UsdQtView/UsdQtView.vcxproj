@@ -92,6 +92,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="gl.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="NodePreview.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeRenderer.cpp" />
@@ -112,7 +113,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cbuffers.h" />
     <ClInclude Include="gl.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="NodeRenderer.h" />
+    <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="utils.h" />

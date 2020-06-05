@@ -8,6 +8,8 @@
 
 using namespace PXR_INTERNAL_NS;
 
+class RenderQueue;
+
 class SceneNode {
 public:
     SceneNode();
@@ -15,7 +17,9 @@ public:
     ~SceneNode();
     
     void load(UsdPrim prim, SceneNode* pParent = nullptr);
-    void render(Material* pMaterial);
+    void setMaterial(Material* pMaterial);
+    void traverseRenderable(RenderQueue* pRenderQueue);
+    //void render();
 
     //const glm::mat4x4& transform() { return cbVertObj_.resource().transform; }
 

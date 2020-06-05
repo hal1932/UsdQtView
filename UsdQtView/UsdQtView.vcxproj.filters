@@ -46,6 +46,9 @@
     <ClCompile Include="NodeRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="NodePreview.h">
@@ -85,6 +88,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="NodeRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

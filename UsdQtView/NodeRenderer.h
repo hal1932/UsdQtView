@@ -5,6 +5,7 @@
 #include "cbuffers.h"
 #include "Vertex.h"
 #include "gl.h"
+#include "Material.h"
 
 class SceneNode;
 class Material;
@@ -12,13 +13,18 @@ class Material;
 class NodeRenderer final : public boost::noncopyable {
 public:
     NodeRenderer();
+
     void create(SceneNode* pNode);
-    void render(Material* pMaterial);
+
+    void setMaterial(Material* pMaterial);
+    MaterialVariation material() { return material_; }
 
     bool renderable() { return renderable_; }
+    void render();
 
 private:
-    bool renderable_;
+    MaterialVariation material_;
+    bool renderable_ = false;
 
     InputLayout<Vertex> inputLayout_;
     BindableBuffer<Vertex> vertices_;

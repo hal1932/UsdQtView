@@ -37,8 +37,11 @@ public:
 
             auto stage = UsdStage::Open(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
             node_.load(stage->GetPrimAtPath(SdfPath("/Kitchen_set/Props_grp/DiningTable_grp/ChairB_1")));
+            //auto stage = UsdStage::Open(QFileInfo("simpleShading.usda").absoluteFilePath().toStdString());
+            //node_.load(stage->GetPseudoRoot());
 
             nodePreview_.setNode(&node_);
+            nodePreview_.updateRenderable();
         });
 
         setMinimumSize(640, 480);
