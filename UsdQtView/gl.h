@@ -24,7 +24,7 @@ public:
     virtual void destroy() {}
 
     virtual GLuint handle() { return handle_; }
-    bool created() { return handle() != _INVALID_HANDLE; }
+    bool valid() { return handle() != _INVALID_HANDLE; }
 
 protected:
     GLuint handle_ = _INVALID_HANDLE;

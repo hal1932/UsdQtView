@@ -53,13 +53,19 @@ void NodeRenderer::create(SceneNode* pNode) {
         SdfAssetPath assetPath;
         file.Get(&assetPath);
 
+        QFileInfo fileInfo;
         auto filePath = assetPath.GetResolvedPath();
-        if (filePath.length() == 0) {
-            filePath = QFileInfo(assetPath.GetAssetPath().c_str()).absoluteFilePath().toStdString();
+        if (filePath.length() > 0) {
+            fileInfo = QFileInfo(filePath.c_str());
+        } else {
+            fileInfo = QFileInfo(assetPath.GetAssetPath().c_str());
         }
 
-        texture_.create();
-        texture_.load(filePath.c_str());
+        if (fileInfo.exists()) {
+            texture_ = std::make_unique<Texture>();
+            texture_->create();
+            texture_->load(fileInfo.absoluteFilePath().toStdString().c_str());
+        }
     }
 
     VtArray<GfVec3f> points;
@@ -113,7 +119,7 @@ void NodeRenderer::create(SceneNode* pNode) {
 void NodeRenderer::setMaterial(Material* pMaterial) {
     pMaterial->beginKeywordVariation();
     pMaterial->enableKeyword("ENABLE_DISPLAY_COLOR");
-    if (texture_.created()) {
+    if (texture_) {
         pMaterial->enableKeyword("ENABLE_TEXTURE_0");
     }
     material_ = pMaterial->endKeywordVariation();
@@ -125,8 +131,8 @@ void NodeRenderer::render() {
     material_.bindUniformBlock(&cbVertObj_, "CbVertObj");
     material_.bindUniformBlock(&cbFlagObj_, "CbFlagObj");
 
-    if (texture_.created()) {
-        material_.bindTexture(&texture_, GL_TEXTURE0, "texture_0");
+    if (texture_) {
+        material_.bindTexture(texture_.get(), GL_TEXTURE0, "texture_0");
     }
 
     indices_.bind();

@@ -33,5 +33,5 @@ private:
     UniformBlock<CbVertObj> cbVertObj_;
     UniformBlock<CBFlagObj> cbFlagObj_;
 
-    Texture texture_;
+    std::unique_ptr<Texture> texture_;
 };
