@@ -6,7 +6,8 @@
 #include <map>
 #include <GL/glpng.h>
 
-extern QOpenGLFunctions_4_5_Core gl;
+typedef QOpenGLFunctions_4_5_Core GLFunctionsType;
+extern GLFunctionsType gl;
 
 
 void setupOpenGL();
@@ -30,6 +31,56 @@ protected:
     GLuint handle_ = _INVALID_HANDLE;
 };
 
+
+class GLResourcePool : boost::noncopyable {
+public:
+    typedef void (GLFunctionsType::*CreateFunction)(GLsizei, GLuint*);
+    typedef void (GLFunctionsType::*DeleteFunction)(GLsizei, const GLuint*);
+
+public:
+    GLResourcePool(size_t size, CreateFunction allocator, DeleteFunction deleter)
+        : resources_(size), deleter_(deleter)
+    {
+        resources_.resize(size);
+        ((&gl)->*allocator)(size, resources_.data());
+    }
+
+    virtual ~GLResourcePool() {
+        ((&gl)->*deleter_)(resources_.size(), resources_.data());
+    }
+
+    GLuint get() {
+        auto resource = resources_[index_];
+        ++index_;
+        return resource;
+    }
+
+private:
+    std::vector<GLuint> resources_;
+    size_t index_ = 0;
+    DeleteFunction deleter_;
+};
+
+class GLBufferPool final : GLResourcePool {
+public:
+    GLBufferPool(size_t size)
+        : GLResourcePool(size, &GLFunctionsType::glGenBuffers, &GLFunctionsType::glDeleteBuffers)
+    { }
+};
+
+class GLTexturePool final : GLResourcePool {
+public:
+    GLTexturePool(size_t size)
+        : GLResourcePool(size, &GLFunctionsType::glGenTextures, &GLFunctionsType::glDeleteTextures)
+    { }
+};
+
+class GLSamplerPool final : GLResourcePool {
+public:
+    GLSamplerPool(size_t size)
+        : GLResourcePool(size, &GLFunctionsType::glGenSamplers, &GLFunctionsType::glDeleteSamplers) {
+    }
+};
 
 template<class TElem>
 class BindableBuffer final : public GLObject {

@@ -103,7 +103,7 @@ namespace {
 }
 
 
-QOpenGLFunctions_4_5_Core gl;
+GLFunctionsType gl;
 
 
 void setupOpenGL() {
