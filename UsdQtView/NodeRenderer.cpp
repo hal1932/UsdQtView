@@ -106,8 +106,8 @@ void NodeRenderer::create(SceneNode* pNode) {
     indices_.upload(GL_STATIC_DRAW);
 
     inputLayout_.create();
-    inputLayout_.set(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);  // position
-    inputLayout_.set(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), 12); // uv
+    inputLayout_.set(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), Vertex::POSITION_OFFSET);  // position
+    inputLayout_.set(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), Vertex::TEXCOORD0_OFFSET); // uv0
 }
 
 void NodeRenderer::setMaterial(Material* pMaterial) {
