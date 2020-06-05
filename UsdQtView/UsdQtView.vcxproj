@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="gl.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="NodePreview.cpp" />

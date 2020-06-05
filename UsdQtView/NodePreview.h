@@ -4,10 +4,10 @@
 #include <QVector3D>
 #include <QtOpenGL>
 #include "gl.h"
-#include "SceneNode.h"
 #include "Camera.h"
 #include "RenderQueue.h"
 
+class SceneNode;
 class NodeRenderer;
 
 class NodePreview : public QOpenGLWidget {
@@ -43,12 +43,9 @@ private:
 
     Material material_;
     Camera camera_;
-    //UniformBlock<CbVertScene> cbVertScene_;
 
     RenderQueue renderQueue_;
 
     QPoint lastMousePos_;
     QKeyEvent* pLastKeyEvent_ = nullptr;
-
-    //void updateCamera();
 };

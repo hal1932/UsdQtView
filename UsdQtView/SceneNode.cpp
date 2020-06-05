@@ -78,14 +78,3 @@ void SceneNode::traverseRenderable(RenderQueue* pRenderQueue) {
         child.traverseRenderable(pRenderQueue);
     }
 }
-
-//void SceneNode::render(Material* pMaterial) {
-//    if (renderer_->renderable()) {
-//        renderer_->render(pMaterial);
-//    }
-//
-//    for (auto& child : children_) {
-//        child.render(pMaterial);
-//    }
-//}
-

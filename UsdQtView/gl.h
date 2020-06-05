@@ -107,9 +107,6 @@ private:
 };
 
 
-GLint getUniqueIndex();
-
-
 template<class TResource>
 class UniformBlock final : public GLObject {
 public:
@@ -132,7 +129,6 @@ public:
     void bind(GLuint program, const std::string& blockName) {
         if (blockName != lastBoundName_) {
             const auto blockIndex = gl.glGetUniformBlockIndex(program, blockName.c_str());
-            //bindingPoint_ = getUniqueIndex();
             bindingPoint_ = blockIndex;
             gl.glUniformBlockBinding(program, blockIndex, bindingPoint_);
             lastBoundName_ = blockName;

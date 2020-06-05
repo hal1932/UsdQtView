@@ -19,9 +19,6 @@ public:
     void load(UsdPrim prim, SceneNode* pParent = nullptr);
     void setMaterial(Material* pMaterial);
     void traverseRenderable(RenderQueue* pRenderQueue);
-    //void render();
-
-    //const glm::mat4x4& transform() { return cbVertObj_.resource().transform; }
 
     const UsdPrim& prim() { return prim_; }
     const glm::mat4x4& transform() { return transform_; }

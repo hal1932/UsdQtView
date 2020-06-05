@@ -1,8 +1,8 @@
 #include "stdafx.h"
-//#include "UsdQtView.h"
 #include <QtWidgets/QApplication>
 #include <QtGui/QSurfaceFormat>
 #include "gl.h"
+#include "SceneNode.h"
 #include "NodePreview.h"
 
 #include <cstdio>

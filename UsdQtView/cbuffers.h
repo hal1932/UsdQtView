@@ -6,7 +6,6 @@ struct CbVertScene {
 
 struct CbVertObj {
     glm::mat4x4 transform;
-    //glm::mat4x4 viewProj;
 };
 
 struct CBFlagObj {

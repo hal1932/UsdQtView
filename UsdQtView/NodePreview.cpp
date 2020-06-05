@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "NodePreview.h"
+#include "SceneNode.h"
 #include <fstream>
 #include <QFileInfo>
 
@@ -30,29 +31,16 @@ void NodePreview::initializeGL() {
 
     material_.setCamera(&camera_);
 
-    //cbVertScene_.create();
-    //cbVertScene_.resource().viewProj = camera_.proj() * camera_.view();
-    //cbVertScene_.upload(GL_DYNAMIC_DRAW);
-
     setMouseTracking(true);
 }
 
 void NodePreview::resizeGL(int w, int h) {
     camera_.setScreen(w, h);
-    //updateCamera();
 }
 
 void NodePreview::paintGL() {
     gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //material_.beginKeywordVariation();
-    //material_.enableKeyword("ENABLE_DISPLAY_COLOR");
-    //material_.endKeywordVariation();
-
-    //material_.bind();
-    //material_.bindUniformBlock(&cbVertScene_, "CbVertScene");
-
-    //pNode_->render();
     renderQueue_.sort();
     renderQueue_.render([](auto* pMaterial) {
         pMaterial->beginScene();
@@ -63,7 +51,6 @@ void NodePreview::wheelEvent(QWheelEvent* e) {
     const auto stepSize = 2.f;
     const auto value = e->angleDelta().y() / 8;
     camera_.dolly(value);
-    //updateCamera();
 }
 
 void NodePreview::mouseMoveEvent(QMouseEvent* e) {
@@ -76,19 +63,16 @@ void NodePreview::mouseMoveEvent(QMouseEvent* e) {
             const auto x = -glm::radians(static_cast<float>(mouseDelta.x()) * stepSize);
             const auto y = -glm::radians(static_cast<float>(mouseDelta.y()) * stepSize);
             camera_.spin(x, y);
-            //updateCamera();
         } else if (buttons.testFlag(Qt::MiddleButton)) {
             const auto stepSize = 2.f;
             const auto x = -static_cast<float>(mouseDelta.x()) * stepSize;
             const auto y = static_cast<float>(mouseDelta.y()) * stepSize;
             camera_.track(x, y);
-            //updateCamera();
         } else if (buttons.testFlag(Qt::RightButton)) {
             const auto stepSize = 1.f;
             const auto delta = std::abs(mouseDelta.x()) > std::abs(mouseDelta.y()) ? mouseDelta.x() : mouseDelta.y();
             const auto value = static_cast<float>(delta) * stepSize;
             camera_.dolly(value);
-            //updateCamera();
         }
     }
 
@@ -113,8 +97,3 @@ void NodePreview::updateRenderable() {
     renderQueue_.clear();
     pNode_->traverseRenderable(&renderQueue_);
 }
-
-//void NodePreview::updateCamera() {
-//    cbVertScene_.resource().viewProj = camera_.proj() * camera_.view();
-//    cbVertScene_.upload(GL_DYNAMIC_DRAW);
-//}

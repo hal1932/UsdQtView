@@ -2,8 +2,6 @@
 #include "gl.h"
 
 namespace {
-    GLint lastIndex_ = 0;
-
     // https://gist.github.com/liam-middlebrook/c52b069e4be2d87a6d2f
     void APIENTRY GLDebugMessageCallback(GLenum source, GLenum type, GLuint id,
         GLenum severity, GLsizei length,
@@ -125,7 +123,3 @@ void setupOpenGL() {
     gl.glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
 }
 
-
-GLint getUniqueIndex() {
-    return lastIndex_++;
-}
