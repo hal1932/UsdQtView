@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "NodeRenderer.h"
 #include "SceneNode.h"
+#include "glmUtils.h"
 
 NodeRenderer::NodeRenderer()
     : inputLayout_(&vertices_),
@@ -26,10 +27,7 @@ void NodeRenderer::create(SceneNode* pNode) {
     VtArray<GfVec3f> colors;
     mesh.GetDisplayColorAttr().Get(&colors);
     if (colors.size() > 0) {
-        const auto r = colors[0][0];
-        const auto g = colors[0][1];
-        const auto b = colors[0][2];
-        resource.displayColor = glm::vec4(r, g, b, 1.f);
+        resource.displayColor = vec4(colors[0], 1.f);
     } else {
         resource.displayColor = glm::vec4(0.5f, 0.5f, 0.5f, 1.f);
     }

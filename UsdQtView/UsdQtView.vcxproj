@@ -119,7 +119,7 @@
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="utils.h" />
+    <ClInclude Include="glmUtils.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>

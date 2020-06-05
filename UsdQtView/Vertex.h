@@ -1,21 +1,17 @@
 #pragma once
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <pxr/base/gf/vec2f.h>
-#include <pxr/base/gf/vec3f.h>
+#include "glmUtils.h"
 
-using namespace PXR_INTERNAL_NS;
-
+#pragma pack(push, 1)
 struct Vertex {
     glm::vec3 position;
     glm::vec2 texcoord;
 
-    Vertex(GfVec3f pos) {
-        position = glm::vec3(pos[0], pos[1], pos[2]);
-    }
+    Vertex(GfVec3f pos)
+        : position(vec3(pos)), texcoord(glm::vec2(0.0f, 0.0f))
+    { }
 
-    Vertex(GfVec3f pos, GfVec2f uv) {
-        position = glm::vec3(pos[0], pos[1], pos[2]);
-        texcoord = glm::vec2(uv[0], uv[1]);
-    }
+    Vertex(GfVec3f pos, GfVec2f uv)
+        : position(vec3(pos)), texcoord(vec2(uv))
+    { }
 };
+#pragma pack(pop)
