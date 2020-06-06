@@ -78,8 +78,8 @@ public:
 class GLSamplerPool final : GLResourcePool {
 public:
     GLSamplerPool(size_t size)
-        : GLResourcePool(size, &GLFunctionsType::glGenSamplers, &GLFunctionsType::glDeleteSamplers) {
-    }
+        : GLResourcePool(size, &GLFunctionsType::glGenSamplers, &GLFunctionsType::glDeleteSamplers)
+    { }
 };
 
 template<class TElem>
