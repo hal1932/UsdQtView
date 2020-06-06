@@ -147,7 +147,7 @@ std::map<uint, GLuint> Material::compileShader(GLenum type, const char* filePath
         shaders[hash] = compileShaderImpl(keywords);
         variations_.insert(hash);
 
-        if (i + 1 < keywords_.size()) {
+        if (i + 1U < keywords_.size()) {
             for (auto j = i + 1; j < keywords_.size(); ++j) {
                 keywords += "#define ";
                 keywords += keywords_[j];
