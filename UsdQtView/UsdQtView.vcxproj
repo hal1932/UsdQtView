@@ -115,6 +115,7 @@
     <ClInclude Include="cbuffers.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="NodeList.h" />
     <ClInclude Include="NodeRenderer.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="SceneNode.h" />
