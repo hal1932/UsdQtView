@@ -1,7 +1,4 @@
 #pragma once
-#include <vector>
-#include <functional>
-#include <QtOpenGL>
 #include "cbuffers.h"
 #include "Vertex.h"
 #include "gl.h"
@@ -9,6 +6,7 @@
 
 using namespace PXR_INTERNAL_NS;
 
+class Material;
 class RenderQueue;
 
 class SceneNode {

@@ -1,8 +1,4 @@
 #pragma once
-#include <cstdlib>
-#include <QOpenGLWidget>
-#include <QVector3D>
-#include <QtOpenGL>
 #include "gl.h"
 #include "Camera.h"
 #include "RenderQueue.h"

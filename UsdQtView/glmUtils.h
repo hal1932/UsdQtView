@@ -1,13 +1,4 @@
 #pragma once
-#include <pxr/base/gf/vec2f.h>
-#include <pxr/base/gf/vec3f.h>
-#include <pxr/base/gf/vec4f.h>
-#include <pxr/base/gf/matrix4d.h>
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-
 using namespace PXR_INTERNAL_NS;
 
 inline glm::vec2 vec2(GfVec2f v) {

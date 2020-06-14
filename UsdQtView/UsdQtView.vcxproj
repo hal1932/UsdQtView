@@ -42,7 +42,7 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <QtInstall>msvc2017_64</QtInstall>
+    <QtInstall>msvc2019_64</QtInstall>
     <QtModules>core;gui;opengl;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -65,6 +65,8 @@
       <PreprocessorDefinitions>CPP;$(Qt_DEFINES_);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <ShowIncludes>false</ShowIncludes>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -94,6 +96,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="gl.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="NodeList.cpp" />
+    <ClCompile Include="NodeListComponents.cpp" />
     <ClCompile Include="NodePreview.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NodeRenderer.cpp" />
@@ -115,8 +119,9 @@
     <ClInclude Include="cbuffers.h" />
     <ClInclude Include="gl.h" />
     <ClInclude Include="Material.h" />
-    <ClInclude Include="NodeList.h" />
+    <QtMoc Include="NodeList.h" />
     <ClInclude Include="NodeRenderer.h" />
+    <QtMoc Include="NodeListComponents.h" />
     <ClInclude Include="RenderQueue.h" />
     <ClInclude Include="SceneNode.h" />
     <ClInclude Include="stdafx.h" />

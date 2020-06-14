@@ -30,27 +30,30 @@ public:
 
 class MainWindow : public QMainWindow {
 public:
-    MainWindow() : QMainWindow(nullptr), nodePreview_(this){}
+    MainWindow()
+        : QMainWindow(nullptr), nodePreview_(this), nodeList_(this)
+    { }
 
     void setupUi() {
         connect(&nodePreview_, &NodePreview::loaded, this, [this]() {
             setupOpenGL();
 
-            auto stage = UsdStage::Open(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
-            node_.load(stage->GetPrimAtPath(SdfPath("/Kitchen_set/Props_grp/DiningTable_grp/ChairB_1")));
-            //auto stage = UsdStage::Open(QFileInfo("simpleShading.usda").absoluteFilePath().toStdString());
-            //node_.load(stage->GetPseudoRoot());
+            stage_ = UsdStage::Open(QFileInfo("Kitchen_set/Kitchen_set.usd").absoluteFilePath().toStdString());
+            node_.load(stage_->GetPrimAtPath(SdfPath("/Kitchen_set/Props_grp/DiningTable_grp/ChairB_1")));
+            //stage_ = UsdStage::Open(QFileInfo("simpleShading.usda").absoluteFilePath().toStdString());
+            //node_.load(stage_->GetPseudoRoot());
 
             nodePreview_.setNode(&node_);
             nodePreview_.updateRenderable();
 
             SceneNode::walk(&node_, [this](auto pNode) {
-                nodeList_.addItem(pNode->prim().GetPath().GetString().c_str());
+                nodeList_.add(pNode);
                 return true;
             });
         });
 
         nodePreview_.setMinimumSize(640, 480);
+        nodeList_.setupUi();
 
         centralLayout_.addWidget(&nodePreview_);
         centralLayout_.addWidget(&nodeList_);
@@ -72,6 +75,8 @@ private:
     QHBoxLayout centralLayout_;
     NodePreview nodePreview_;
     NodeList nodeList_;
+
+    UsdStageRefPtr stage_;
     SceneNode node_;
 };
 

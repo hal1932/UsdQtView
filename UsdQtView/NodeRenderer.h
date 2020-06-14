@@ -1,6 +1,4 @@
 #pragma once
-#include <vector>
-#include <QtOpenGL>
 #include <boost/noncopyable.hpp>
 #include "cbuffers.h"
 #include "Vertex.h"
